@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Library Books</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    div.buttons {
+      margin-bottom: 20px;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .alert {
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+    }
+
+    .alert-success {
+      color: #155724;
+      background-color: #d4edda;
+      border-color: #c3e6cb;
+    }
+
+    .alert-danger {
+      color: #721c24;
+      background-color: #f8d7da;
+      border-color: #f5c6cb;
+    }
+
+    form {
+      margin-bottom: 20px;
+    }
+
+    label {
+      margin-right: 10px;
+    }
+
+    input[type="text"],
+    select {
+      padding: 8px;
+      font-size: 16px;
+    }
+
+    button[type="submit"] {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #218838;
+    }
+
+    .book {
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .book h3 {
+      margin-top: 0;
+      margin-bottom: 5px;
+    }
+
+    .book p {
+      margin: 5px 0;
+    }
+
+    .delete-form {
+      display: inline;
+    }
+
+    .delete-form button {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    .delete-form button:hover {
+      background-color: #c82333;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Library Books</h1>
+<div class="buttons">
+  <button onclick="location.href='/add_author'">Add Author</button>
+  <button onclick="location.href='/add_book'">Add Book</button>
+</div>
+
+<!-- Flash messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<!-- Search form -->
+<form action="/" method="GET">
+  <label for="search">Search books:</label>
+  <input type="text" id="search" name="search" value="{{ request.args.get('search', '') }}">
+  <button type="submit">Search</button>
+</form>
+
+<!-- Sort options -->
+<form action="/" method="GET">
+  <label for="sort_by">Sort by:</label>
+  <select id="sort_by" name="sort_by">
+    <option value="title" {% if sort_by == 'title' %} selected {% endif %}>Title</option>
+    <option value="title_reverse" {% if sort_by == 'title_reverse' %} selected {% endif %}>Title (Reverse)</option>
+    <option value="author" {% if sort_by == 'author' %} selected {% endif %}>Author Name</option>
+    <option value="published_newest" {% if sort_by == 'published_newest' %} selected {% endif %}>Publication Year (New First)</option>
+    <option value="published_oldest" {% if sort_by == 'published_oldest' %} selected {% endif %}>Publication Year (Old First)</option>
+  </select>
+  <button type="submit">Sort</button>
+</form>
+
+<p>{{ message }}</p>
+
+{% if books %}
+  {% for book in books %}
+    <div class="book">
+      <h3>{{ book.title }}</h3>
+      <p>Author: {{ book.author.name }}</p>
+      <p>Publication Year: {{ book.publication_year }}</p>
+      <form action="{{ url_for('delete_book', book_id=book.id) }}" method="POST" class="delete-form">
+        <button type="submit" onclick="return confirm('Are you sure you want to delete {{ book.title }}?');">Delete Book</button>
+      </form>
+    </div>
+  {% endfor %}
+{% else %}
+  <p>No books found.</p>
+{% endif %}
+
+</body>
+</html>

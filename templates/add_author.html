@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Add Author</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    form {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #f7f7f7;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="date"] {
+      width: calc(100% - 20px);
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    input[type="submit"] {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #218838;
+    }
+
+    .message {
+      background-color: #d4edda;
+      color: #155724;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #c3e6cb;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<button onclick="location.href='/'">Home</button>
+
+<form action="/add_author" method="POST">
+  <h1>Add Author</h1>
+  <label for="name">Author Name:</label>
+  <input type="text" id="name" name="name" required><br><br>
+
+  <label for="birth_date">Birthdate:</label>
+  <input type="date" id="birth_date" name="birth_date" required><br><br>
+
+  <label for="date_of_death">Date of Death:</label>
+  <input type="date" id="date_of_death" name="date_of_death"><br><br>
+
+  {% if message %}
+    <div class="message">
+      <p>{{ message }}</p>
+    </div>
+  {% endif %}
+
+  <input type="submit" value="Add Author">
+</form>
+
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Add Book</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    form {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #f7f7f7;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: calc(100% - 20px);
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    input[type="submit"] {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #218838;
+    }
+
+    .message {
+      background-color: #f8d7da;
+      color: #721c24;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #f5c6cb;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<button onclick="location.href='/'">Home</button>
+
+<form action="/add_book" method="POST">
+  <h1>Add Book</h1>
+  <label for="isbn">ISBN</label>
+  <input type="text" id="isbn" name="isbn" required><br><br>
+
+  <label for="title">Title</label>
+  <input type="text" id="title" name="title" required><br><br>
+
+  <label for="publication_year">Publication Year</label>
+  <input type="number" id="publication_year" name="publication_year" required><br><br>
+
+  <label for="author">Author</label>
+  <select id="author" name="author_id" required>
+    {% if authors %}
+      {% for author in authors %}
+        <option value="{{ author.id }}">{{ author.name }}</option>
+      {% endfor %}
+    {% else %}
+      <option value="">No authors available</option>
+    {% endif %}
+  </select><br><br>
+
+  {% if message %}
+    <div class="message">
+      <p>{{ message }}</p>
+    </div>
+  {% endif %}
+
+  <input type="submit" value="Add Book">
+</form>
+
+</body>
+</html>
